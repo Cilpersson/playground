@@ -28,14 +28,22 @@ const StyledValue = styled.p`
 
 const PreviousValue = styled(StyledValue)`
   font-size: 1rem;
+  color: #ffffff90;
 `;
 const CurrentValue = styled(StyledValue)``;
 
-export const Display = () => {
+const Sum = styled(StyledValue)``;
+
+export const Display = ({ currentValue, previousValue, sum }) => {
   return (
     <StyledDisplay>
-      <PreviousValue>456</PreviousValue>
-      <CurrentValue>123+</CurrentValue>
+      {sum === "" && (
+        <>
+          <PreviousValue>{previousValue}</PreviousValue>
+          <CurrentValue>{currentValue}</CurrentValue>
+        </>
+      )}
+      {sum !== "" && <Sum>{sum}</Sum>}
     </StyledDisplay>
   );
 };

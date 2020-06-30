@@ -8,9 +8,9 @@ const StyledButton = styled.button`
 
   font-size: 2rem;
   font-family: "Notable", sans-serif;
+  color: #2e2e2e;
 
-  color: #fff;
-  background: #1c91ff;
+  background: ${(props) => props.background || "#1c91ff50"};
   border: none;
 
   display: flex;
@@ -19,8 +19,8 @@ const StyledButton = styled.button`
   transition: 0.1s;
 
   &:hover {
-    background: #1c91ff50;
-    color: #2e2e2e;
+    background: ${(props) => props.backgroundHover || "#1c91ff"};
+    color: #fff;
     cursor: pointer;
   }
 `;
@@ -29,9 +29,22 @@ const ButtonText = styled.p`
   margin: 0;
 `;
 
-export const Button = ({ buttonText, width, span }) => {
+export const Button = ({
+  buttonText,
+  width,
+  span,
+  background,
+  backgroundHover,
+  onClick,
+}) => {
   return (
-    <StyledButton span={span} width={width}>
+    <StyledButton
+      onClick={onClick}
+      backgroundHover={backgroundHover}
+      background={background}
+      span={span}
+      width={width}
+    >
       <ButtonText>{buttonText}</ButtonText>
     </StyledButton>
   );
