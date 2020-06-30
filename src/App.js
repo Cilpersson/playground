@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
+import { Calculator } from "./components/Calculator";
 
 export const App = () => {
-  return <h1>Playground</h1>;
+  return <Calculator />;
 };
