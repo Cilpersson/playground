@@ -43,7 +43,10 @@ export const Display = ({ currentValue, previousValue, sum }) => {
           <CurrentValue>{currentValue}</CurrentValue>
         </>
       )}
-      {sum !== "" && <Sum>{sum}</Sum>}
+      {sum !== "" && (
+        <Sum>{isNaN(sum) ? "ERROR" : sum === Infinity ? "ERROR" : sum}</Sum>
+      )}
+      {console.log(sum)}
     </StyledDisplay>
   );
 };
