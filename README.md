@@ -1,1 +1,1 @@
-repo for smaller just-for-fun-projects.
+repo for smaller just-for-fun-projects
