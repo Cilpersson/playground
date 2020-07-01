@@ -12,6 +12,13 @@ const Grid = styled.div`
   margin: auto;
 `;
 
+const Wrapper = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 export const Calculator = () => {
   const [currentValue, setCurrentValue] = useState(0);
   const [previousValue, setPrevoiusValue] = useState();
@@ -20,6 +27,30 @@ export const Calculator = () => {
   const [sum, setSum] = useState("");
 
   const operandValue = (operand) => {
+    setSum("");
+    if (previousValue && operand === "+") {
+      // setPrevoiusValue(currentValue + previousValue);
+      // setPrevoiusValueOperand(previousValue + operand);
+
+      setSum(+currentValue + +previousValue);
+      setCurrentValue(+currentValue + +previousValue);
+    }
+
+    if (previousValue && operand === "-") {
+      setSum(+previousValue - +currentValue);
+      setCurrentValue(+previousValue - +currentValue);
+    }
+
+    if (previousValue && operand === "*") {
+      setSum(+currentValue * +previousValue);
+      setCurrentValue(+currentValue * +previousValue);
+    }
+
+    if (previousValue && operand === "/") {
+      setSum(+previousValue / +currentValue);
+      setCurrentValue(+previousValue / +currentValue);
+    }
+
     setPrevoiusValue(currentValue);
     setPrevoiusValueOperand(currentValue + operand);
     setCurrentValue(0);
@@ -28,24 +59,55 @@ export const Calculator = () => {
 
   const totalValue = () => {
     if (currentOperand === "*") {
-      setSum(currentValue * previousValue);
+      setSum(+currentValue * +previousValue);
+      setCurrentValue(+currentValue * +previousValue);
     }
 
     if (currentOperand === "+") {
-      setSum(currentValue + previousValue);
+      setSum(+currentValue + +previousValue);
+      setCurrentValue(+currentValue + +previousValue);
     }
 
     if (currentOperand === "/") {
-      setSum(currentValue / previousValue);
+      setSum(+previousValue / +currentValue);
+      setCurrentValue(+previousValue / +currentValue);
     }
 
     if (currentOperand === "-") {
-      setSum(currentValue - previousValue);
+      setSum(+previousValue - +currentValue);
+      setCurrentValue(+previousValue - +currentValue);
     }
   };
 
+  const numberToString = (value) => {
+    if (value === 0 && currentValue.toString() === "0") {
+      setCurrentValue(0);
+    } else if (value !== 0 && currentValue.toString() === "0") {
+      setCurrentValue(value);
+    } else if (sum !== "") {
+      setCurrentValue(sum);
+      setSum("");
+    } else {
+      setCurrentValue(currentValue.toString() + value.toString());
+    }
+  };
+
+  const handleFloat = () => {
+    if (!currentValue.toString().includes(".")) {
+      setCurrentValue(currentValue.toString() + ".");
+    }
+  };
+
+  const allClear = () => {
+    setCurrentValue(0);
+    setPrevoiusValue();
+    setPrevoiusValueOperand();
+    setCurrentOperand("");
+    setSum("");
+  };
+
   return (
-    <>
+    <Wrapper>
       <Grid>
         <Display
           sum={sum}
@@ -53,6 +115,7 @@ export const Calculator = () => {
           previousValue={previousValueOperand}
         />
         <Button
+          onClick={() => allClear()}
           backgroundHover="#15cf84"
           background="#15cf8450"
           span="span 3"
@@ -66,21 +129,9 @@ export const Calculator = () => {
           width="4rem"
           buttonText="*"
         />
-        <Button
-          onClick={() => setCurrentValue(7)}
-          width="4rem"
-          buttonText="7"
-        />
-        <Button
-          onClick={() => setCurrentValue(8)}
-          width="4rem"
-          buttonText="8"
-        />
-        <Button
-          onClick={() => setCurrentValue(9)}
-          width="4rem"
-          buttonText="9"
-        />
+        <Button onClick={() => numberToString(7)} width="4rem" buttonText="7" />
+        <Button onClick={() => numberToString(8)} width="4rem" buttonText="8" />
+        <Button onClick={() => numberToString(9)} width="4rem" buttonText="9" />
         <Button
           onClick={() => operandValue("/")}
           backgroundHover="#15cf84"
@@ -88,21 +139,9 @@ export const Calculator = () => {
           width="4rem"
           buttonText="/"
         />
-        <Button
-          onClick={() => setCurrentValue(4)}
-          width="4rem"
-          buttonText="4"
-        />
-        <Button
-          onClick={() => setCurrentValue(5)}
-          width="4rem"
-          buttonText="5"
-        />
-        <Button
-          onClick={() => setCurrentValue(6)}
-          width="4rem"
-          buttonText="6"
-        />
+        <Button onClick={() => numberToString(4)} width="4rem" buttonText="4" />
+        <Button onClick={() => numberToString(5)} width="4rem" buttonText="5" />
+        <Button onClick={() => numberToString(6)} width="4rem" buttonText="6" />
         <Button
           onClick={() => operandValue("+")}
           backgroundHover="#15cf84"
@@ -110,21 +149,9 @@ export const Calculator = () => {
           width="4rem"
           buttonText="+"
         />
-        <Button
-          onClick={() => setCurrentValue(1)}
-          width="4rem"
-          buttonText="1"
-        />
-        <Button
-          onClick={() => setCurrentValue(2)}
-          width="4rem"
-          buttonText="2"
-        />
-        <Button
-          onClick={() => setCurrentValue(3)}
-          width="4rem"
-          buttonText="3"
-        />
+        <Button onClick={() => numberToString(1)} width="4rem" buttonText="1" />
+        <Button onClick={() => numberToString(2)} width="4rem" buttonText="2" />
+        <Button onClick={() => numberToString(3)} width="4rem" buttonText="3" />
         <Button
           onClick={() => operandValue("-")}
           backgroundHover="#15cf84"
@@ -132,8 +159,14 @@ export const Calculator = () => {
           width="4rem"
           buttonText="-"
         />
-        <Button span="span 3" width="100%" buttonText="0" />
         <Button
+          onClick={() => numberToString(0)}
+          span="span 3"
+          width="100%"
+          buttonText="0"
+        />
+        <Button
+          onClick={() => handleFloat()}
           backgroundHover="#15cf84"
           background="#15cf8450"
           width="4rem"
@@ -148,39 +181,6 @@ export const Calculator = () => {
           buttonText="="
         />
       </Grid>
-    </>
+    </Wrapper>
   );
 };
-
-/*
- const setValue = (value) => {
-    const temporaryValue = value;
-    if (currentValue === 0 && value !== ".") {
-      setCurrentValue(temporaryValue);
-    } else if (typeof temporaryValue === "number") {
-      setCurrentValue(currentValue.toString() + value.toString());
-      console.log(currentValue);
-    }
-    // Add commas between numbers
-    // if (currentValue.length % 3 === 0) {
-    //   setCurrentValue(`${currentValue.toString()},`);
-    // }
-  };
-
-  const setOperand = (operand) => {
-    setCurrentOperand(operand);
-    setPrevoiusValue(currentValue.toString() + operand);
-    setCurrentValue(0);
-  };
-
-  const totalValue = (valueOne, valueTwo) => {
-    setCurrentValue(+currentValue);
-
-    if (currentOperand === "*") {
-      console.log("kommer jag hit", valueOne, typeof valueTwo);
-
-      // setSum(+valueOne * parseFloat(valueTwo));
-      console.log(sum);
-    }
-  };
-*/

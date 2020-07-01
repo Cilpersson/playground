@@ -16,7 +16,7 @@ const StyledButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.1s;
+  transition: 0.3s;
 
   &:hover {
     background: ${(props) => props.backgroundHover || "#1c91ff"};
